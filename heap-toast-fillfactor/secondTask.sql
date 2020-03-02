@@ -24,7 +24,7 @@ BEGIN
     FOR i IN 1..10000
         LOOP
             EXECUTE format('INSERT INTO %s VALUES (%s, %s)', tab, i, array_to_string(
-                    ARRAY(SELECT generate_series.generate_series::integer FROM generate_series(1, 50)), ''
+                    ARRAY(SELECT generate_series.generate_series::integer FROM generate_series(1, 29)), ''
                 ));
         END LOOP;
 END;
