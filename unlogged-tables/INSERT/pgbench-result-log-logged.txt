@@ -1,0 +1,13 @@
+ubuntu@ip-172-31-47-5:~/benchmarks$ pgbench -h advanced-databases.cr2kqc6yznj4.us-east-1.rds.amazonaws.com -p 5432 -U postgres -T 300 -f ./b_logged.sql postgres
+Password:
+starting vacuum...end.
+transaction type: ./b_logged.sql
+scaling factor: 1
+query mode: simple
+number of clients: 1
+number of threads: 1
+duration: 300 s
+number of transactions actually processed: 72265
+latency average = 4.151 ms
+tps = 240.881665 (including connections establishing)
+tps = 240.892715 (excluding connections establishing)

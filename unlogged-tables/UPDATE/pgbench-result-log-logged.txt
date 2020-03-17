@@ -1,0 +1,16 @@
+ubuntu@ip-172-31-47-5:~/benchmarks/unlogged/update$ pgbench -h advanced-databases.cr2kqc6yznj4.us-east-1.rds.amazonaws.com -p 5432 -U postgres -T 300 -f ./logged.sql postgres
+Password:
+[2]+  Stopped                 pgbench -h advanced-databases.cr2kqc6yznj4.us-east-1.rds.amazonaws.com -p 5432 -U postgres -T 300 -f ./logged.sql postgres
+ubuntu@ip-172-31-47-5:~/benchmarks/unlogged/update$ pgbench -h advanced-databases.cr2kqc6yznj4.us-east-1.rds.amazonaws.com -p 5432 -U postgres -T 300 -f ./logged.sql postgres
+Password:
+starting vacuum...end.
+transaction type: ./logged.sql
+scaling factor: 1
+query mode: simple
+number of clients: 1
+number of threads: 1
+duration: 300 s
+number of transactions actually processed: 34723
+latency average = 8.640 ms
+tps = 115.740464 (including connections establishing)
+tps = 115.745559 (excluding connections establishing)
