@@ -1,20 +1,23 @@
-CREATE OR REPLACE FUNCTION insertIntoUsers(prevId INTEGER, newName VARCHAR) RETURNS void AS
+CREATE OR REPLACE FUNCTION setUpdateRules() RETURNS void AS
 $$
-DECLARE
-    newId integer = 0;
-    count integer = 0;
 BEGIN
-    count = (SELECT count(*) FROM users WHERE id = prevId and xmin::text = (txid_current() % (2^32)::bigint)::text);
-    FOR i in 1..count
+    FOR i in 1..10
         LOOP
-            newId = (SELECT (((prevId / 100000) + 1 + (random() * 10)::int) % 10)::int * 100000 +
-                            (random() * 100000)::int);
-            INSERT INTO users VALUES (newId, newName);
+            FOR j in 1..10
+                LOOP
+                    CONTINUE WHEN i = j;
+
+                    EXECUTE format('CREATE OR REPLACE RULE redirect_update_on_%s_to_%s
+                                        AS ON UPDATE TO public.users
+                                        WHERE OLD.id / 100000 = %s AND NEW.id / 100000 = %s
+                                    DO INSTEAD (
+                                        INSERT INTO users_%s VALUES (NEW.id, NEW.name);
+                                        DELETE FROM users_%s WHERE id = OLD.id;
+                                    );', i, j, (i - 1), (j - 1), j, i);
+
+                END LOOP;
         END LOOP;
 END
 $$ LANGUAGE plpgsql RETURNS NULL ON NULL INPUT;
 
-CREATE OR REPLACE RULE redirect_update_to_users
-    AS ON UPDATE TO public.users
-    DO INSTEAD (SELECT insertIntoUsers(OLD.id, NEW.name);
-        DELETE FROM users where id = OLD.id and xmin::text = (txid_current() % (2^32)::bigint)::text);
+SELECT setUpdateRules();

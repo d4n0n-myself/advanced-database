@@ -1,1 +1,1 @@
-UPDATE users SET name = 'mynewname' WHERE id > 250000 and id < 750000;
+UPDATE users SET id = id - 100000 WHERE id > 385000 and id < 400000;
