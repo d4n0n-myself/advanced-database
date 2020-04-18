@@ -1,0 +1,10 @@
+UPDATE city SET countryid = 2 WHERE id IN (SELECT id FROM city WHERE countryid = 1 LIMIT random() * 50000);
+UPDATE city SET countryid = 3 WHERE id IN (SELECT id FROM city WHERE countryid = 2 LIMIT random() * 50000);
+UPDATE city SET countryid = 4 WHERE id IN (SELECT id FROM city WHERE countryid = 3 LIMIT random() * 50000);
+UPDATE city SET countryid = 5 WHERE id IN (SELECT id FROM city WHERE countryid = 4 LIMIT random() * 50000);
+UPDATE city SET countryid = 6 WHERE id IN (SELECT id FROM city WHERE countryid = 5 LIMIT random() * 50000);
+UPDATE city SET countryid = 7 WHERE id IN (SELECT id FROM city WHERE countryid = 6 LIMIT random() * 50000);
+UPDATE city SET countryid = 8 WHERE id IN (SELECT id FROM city WHERE countryid = 7 LIMIT random() * 50000);
+UPDATE city SET countryid = 9 WHERE id IN (SELECT id FROM city WHERE countryid = 8 LIMIT random() * 50000);
+UPDATE city SET countryid = 10 WHERE id IN (SELECT id FROM city WHERE countryid = 9 LIMIT random() * 50000);
+UPDATE city SET countryid = 1 WHERE id IN (SELECT id FROM city WHERE countryid = 10 LIMIT random() * 50000);
