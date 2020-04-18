@@ -1,0 +1,19 @@
+pg_override.conf
+
+logging_collector=on
+log_min_duration_statement=0
+log_checkpoints=on
+log_connections=on
+log_disconnections=on
+log_lock_waits=on
+log_temp_files=0
+log_autovacuum_min_duration=0
+log_line_prefix='%t [%p]: [%l-1] user=%u,db=%d,app=%a,client=%h '
+
+postgresql-2020-04-18_123719.log
+
+systemctl list-units --all --type=service --no-pager
+sudo service postgresql restart
+sudo ls /var/lib/postgresql/12/main/log/
+sudo pgbadger --prefix '%t [%p]: [%l-1] user=%u,db=%d,app=%a,client=%h ' /var/lib/postgresql/12/main/log/postgresql-2020-04-18_123719.log -o ./var/www/pg.html
+pgbench -h localhost -p 5432 -U postgres -s 500 -c 100 postgres
