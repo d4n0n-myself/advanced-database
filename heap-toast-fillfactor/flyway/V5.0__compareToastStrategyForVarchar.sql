@@ -19,21 +19,6 @@ SELECT myCreateTable('test_extended', 'EXTENDED');
 SELECT myCreateTable('test_external', 'EXTERNAL');
 --#endregion
 
---#region check storage
-SELECT a.attname,
-       t.typname,
-       CASE
-           WHEN a.attstorage = 'p' THEN 'plain'
-           WHEN a.attstorage = 'e' THEN 'external'
-           WHEN a.attstorage = 'x' THEN 'extended'
-           WHEN a.attstorage = 'm' THEN 'main' END
-FROM pg_catalog.pg_attribute a
-         INNER JOIN pg_type t ON t.OID = a.atttypid
-where attrelid = (SELECT pg_class.oid
-                  FROM pg_class
-                  WHERE pg_class.relname = 'test_external');
---#endregion
-
 --#region insert values
 CREATE OR REPLACE FUNCTION doInsertLoop(tab text) RETURNS void AS
 $$
@@ -52,7 +37,6 @@ SELECT doInsertLoop('test_extended');
 SELECT doInsertLoop('test_external');
 --#endregion
 
---#region show size of values
 CREATE OR REPLACE FUNCTION showSize(tab text)
     RETURNS TABLE
             (
@@ -72,17 +56,6 @@ FROM public.%s;', tab);
 END
 $$ LANGUAGE plpgsql RETURNS NULL ON NULL INPUT;
 
-SELECT *
-FROM showSize('test_main');
-SELECT *
-FROM showSize('test_plain');
-SELECT *
-FROM showSize('test_external');
-SELECT *
-FROM showSize('test_extended');
---#endregion
-
---#region show size of original table
 CREATE OR REPLACE function sizeOfRelation(tablename varchar)
     RETURNS varchar
 AS
@@ -95,24 +68,7 @@ BEGIN
     RETURN size;
 END
 $$ LANGUAGE plpgsql;
-SELECT sizeofrelation('test_main');
-SELECT sizeofrelation('test_plain');
-SELECT sizeofrelation('test_extended');
-SELECT sizeofrelation('test_external');
---#endregion
 
---#region show data of original table
-select count(*)
-from test_main;
-select count(*)
-from test_plain;
-select count(*)
-from test_extended;
-select count(*)
-from test_external;
---#endregion
-
---#region show size of toast table
 CREATE OR REPLACE function sizeToast(tablename varchar)
     RETURNS VARCHAR
 AS
@@ -126,13 +82,7 @@ BEGIN
     RETURN size;
 END
 $$ LANGUAGE plpgsql;
-select sizeToast('test_main');
-select sizeToast('test_plain');
-select sizeToast('test_extended');
-select sizeToast('test_external');
---#endregion
 
---#region show data of toast table
 CREATE OR REPLACE function listToast(tablename varchar)
     RETURNS TABLE
             (
@@ -147,24 +97,5 @@ BEGIN
                                 (SELECT oid FROM pg_class WHERE relname = tablename));
 END
 $$ LANGUAGE plpgsql;
-select count(*)
-from listToast('test_main');
-select count(*)
-from listToast('test_plain');
-select count(*)
-from listToast('test_extended');
-select count(*)
-from listToast('test_external');
---#endregion
 
---#region show header/pages
 CREATE EXTENSION IF NOT EXISTS pageinspect;
-SELECT *
-FROM page_header(get_raw_page('test_main', 0));
-SELECT *
-FROM page_header(get_raw_page('test_plain', 0));
-SELECT *
-FROM page_header(get_raw_page('test_external', 0));
-SELECT *
-FROM page_header(get_raw_page('test_extended', 0));
---#endregion

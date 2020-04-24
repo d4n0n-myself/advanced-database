@@ -43,24 +43,4 @@ BEGIN
     EXECUTE format('UPDATE %s SET name = name || name;', tab);
 END
 $$ LANGUAGE plpgsql RETURNS NULL ON NULL INPUT;
-
-select updateVarcharValue('fillfactor50');
-select updateVarcharValue('fillfactor75');
-select updateVarcharValue('fillfactor90');
-select updateVarcharValue('fillfactor100');
---#endregion
-
---#region show size of tables
-SELECT pg_size_pretty(pg_relation_size(c.OID)) AS "Size of %s" FROM pg_class c where relname = 'fillfactor50';
-SELECT pg_size_pretty(pg_relation_size(c.OID)) AS "Size of %s" FROM pg_class c where relname = 'fillfactor75';
-SELECT pg_size_pretty(pg_relation_size(c.OID)) AS "Size of %s" FROM pg_class c where relname = 'fillfactor90';
-SELECT pg_size_pretty(pg_relation_size(c.OID)) AS "Size of %s" FROM pg_class c where relname = 'fillfactor100';
---#endregion
-
---#region get full pages
-CREATE EXTENSION IF NOT EXISTS pageinspect;
-SELECT get_raw_page('fillfactor50', 0);
-SELECT get_raw_page('fillfactor75', 0);
-SELECT get_raw_page('fillfactor90', 0);
-SELECT get_raw_page('fillfactor100', 0);
 --#endregion
