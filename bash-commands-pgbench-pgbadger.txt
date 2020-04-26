@@ -17,3 +17,9 @@ sudo service postgresql restart
 sudo ls /var/lib/postgresql/12/main/log/
 sudo pgbadger --prefix '%t [%p]: [%l-1] user=%u,db=%d,app=%a,client=%h ' /var/lib/postgresql/12/main/log/postgresql-2020-04-18_123719.log -o ./var/www/pg.html
 pgbench -h localhost -p 5432 -U postgres -s 500 -c 100 postgres
+pgbench -h localhost -p 5432 -U postgres -c 4 -T 300 postgres
+
+SELECT pg_reload_conf();
+
+pgmaster.course.net => localhost
+ayakupov => postgres
