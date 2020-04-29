@@ -1,0 +1,1 @@
+SELECT sum(bigint_1) FROM varcharLast;
