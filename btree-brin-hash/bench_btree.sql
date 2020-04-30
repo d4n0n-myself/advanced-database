@@ -1,0 +1,1 @@
+SELECT * FROM btreeindex WHERE name = '87';

@@ -1,0 +1,1 @@
+SELECT * FROM brinindex WHERE name = '126';
