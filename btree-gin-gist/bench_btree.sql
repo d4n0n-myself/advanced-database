@@ -1,0 +1,1 @@
+SELECT * FROM btreeIndex2 WHERE content LIKE '87%';

@@ -1,0 +1,1 @@
+SELECT * FROM ginIndex WHERE content LIKE '87%';
