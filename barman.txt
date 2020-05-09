@@ -1,0 +1,17 @@
+barman backup pg
+
+barman recover --remote-ssh-command "ssh -i topostgres postgres@localhost" pg 20200509T212448 /var/lib/postgresql/12/main
+barman recover --target-immediate --remote-ssh-command "ssh -i topostgres postgres@localhost" pg 20200509T212448 /var/lib/postgresql/12/main
+barman recover --target-time 2020-05-09 22:00:12.000 --remote-ssh-command "ssh -i topostgres postgres@localhost" pg 20200509T212448 /var/lib/postgresql/12/main
+
+barman replication-status pg
+
+systemctl list-units --all --type=service --no-pager
+sudo service postgresql restart
+
+sudo ls /var/lib/postgresql/12/main/
+sudo ls /etc/postgresql/12/main/
+
+cd /var/log/postgresql/
+
+НЕ МОЖЕТ ПЕРЕНЕСТИ partial WAL ФАЙЛ !
