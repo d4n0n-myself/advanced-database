@@ -1,3 +1,5 @@
+barman check pg
+
 barman backup pg
 
 barman recover --remote-ssh-command "ssh -i topostgres postgres@localhost" pg 20200509T212448 /var/lib/postgresql/12/main
@@ -12,6 +14,20 @@ sudo service postgresql restart
 sudo ls /var/lib/postgresql/12/main/
 sudo ls /etc/postgresql/12/main/
 
+sudo nano /etc/postgresql/12/main/pg_override.conf
+sudo nano /etc/postgresql/12/main/postgresql.conf
+sudo nano /etc/postgresql/12/main/pg_hba.conf
+
+sudo nano /etc/barman.d/pg.conf
+sudo nano /etc/barman.conf
+
+sudo su - postgres
+sudo su - barman
+
+cd /var/lib/barman/pg/incoming/
+cd /var/lib/barman/pg/streaming/
+
 cd /var/log/postgresql/
+tail -100
 
 НЕ МОЖЕТ ПЕРЕНЕСТИ partial WAL ФАЙЛ !
